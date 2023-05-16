@@ -11,8 +11,8 @@ For the detailed information of EXPRESSCLUSTER X, please refer to [this site](ht
 ## **System Overview**
 
 ### **System Requirement**
-- 2 servers
-  - IP reachable each other
+- Using 2 servers
+  - IP reachable to each other
   - Having mirror disk
     - At least 2 partitions are required on each mirror disk.
     - Cluster partition size depends on ECX version.
@@ -65,7 +65,7 @@ For the detailed information of EXPRESSCLUSTER X, please refer to [this site](ht
 	- Group resource
 		- Fip                : Floating IP address resource
 		- md                 : mirror disk resource
-		- MySQL_service        : service resource for MySQL80
+		- MySQL_service      : service resource for MySQL80
 
 - Monitor resource
 
@@ -133,8 +133,8 @@ For the detailed information of EXPRESSCLUSTER X, please refer to [this site](ht
         
 - Start the MySQL service to check it is working fine.
     
-        - From services.msc start the MySQL Service.
-        - From services.msc stop the MySQL Service.
+     - From services.msc start the MySQL Service.
+     - From services.msc stop the MySQL Service.
 
 ### **9. Change the startup type of MySQL Service (Node1 & Node2)**
 
@@ -146,7 +146,7 @@ For the detailed information of EXPRESSCLUSTER X, please refer to [this site](ht
 ### **10. Configure MySQL Service in ECX Cluster**
  
   - Add the service resource to control MySQL and configure in Config mode of the Cluster WebUI.  
-- In Config mode of the Cluster WebUI, execute Apply the Configuration File.
+  - In Config mode of the Cluster WebUI, execute Apply the Configuration File.
 
     
       
