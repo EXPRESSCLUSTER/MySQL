@@ -105,7 +105,7 @@ For the detailed information of EXPRESSCLUSTER X, please refer to [this site](ht
 
  If want to know how to add the resource, please refer to "EXPRESSCLUSTER X 5.1 for Windows Installation and Configuration Guide". 
 
- After you add failver group and execute apply the configuration file, you start failover group by wincluster1.  
+ After you add failover group and execute apply the configuration file, you start failover group by wincluster1.  
      
 ### **5. Install MySQL on both servers**
 
@@ -267,4 +267,4 @@ For the detailed information of EXPRESSCLUSTER X, please refer to [this site](ht
                  
 ### **13. Verification**
 
-- Confirm that we can access the database where it failover group is running.
+- Confirm that we can access the database where the failover group is running.
