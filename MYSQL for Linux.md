@@ -1,4 +1,4 @@
-MYSQL with EXPRESSCLUSTER X on Linux
+MySQL with EXPRESSCLUSTER X on Linux
 ===
 
 About this guide
@@ -26,11 +26,11 @@ Achieving MySQL high availability By using EXPRESSCLUSTER X.
 ### Cluster configurations
 - Group resources
   - exec resource
-  - floting IP resource
+  - floating IP resource
   - mirror disk resource
   
-- Monitor rerources
-  - floting IP resource
+- Monitor resources
+  - floating IP resource
   - mirror disk connect monitor resource
   - mirror disk monitor resource
   - mysql monitor resource
@@ -49,7 +49,7 @@ Procedure
     - We assume the following 2node cluster and explain it.
 
     ### cluster information
-    ||Node1(Active)|Node2(Stanby)|
+    ||Node1(Active)|Node2(Standby)|
     |---|---|---|
     |Server name|Server1|Server2|
     |IPaddress|10.0.7.118|10.0.7.119|  
@@ -86,7 +86,7 @@ Procedure
     - Create the database directory.
         - mkdir -p /datadrive/mysql
 
-    - Coping MySQL data from default location to Mirror Disk.
+    - Copying MySQL data from default location to Mirror Disk.
     
       - systemctl status mysqld
       - systemctl stop mysqld
@@ -121,7 +121,7 @@ Procedure
          - CREATE DATABASE db_test;
             - Create database named db_test.
                 
-    - Create user and passward for executing database. 
+    - Create user and password for executing database. 
          - CREATE USER 'test_user'@'localhost' IDENTIFIED BY 'root@1234!@#$';
 
     - Grant permissions.
@@ -219,7 +219,7 @@ Procedure
             -  In the case of stop.sh  -> Immediately after "$CLP_DISK" = "SUCCESS", add the "systemctl stop mysqld"
            
       - Add the MySQL monitor resource
-          - Configure the folloing parameters
+          - Configure the following parameters
 
               |parameter|value|
               |---|---|
