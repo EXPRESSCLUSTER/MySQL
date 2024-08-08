@@ -3,22 +3,18 @@ MySQL with EXPRESSCLUSTER X on Linux
 
 About this guide
 ---
-This guide describes how to setup MySQL with EXPRESSCLUSTER X. 
+This guide describes how to setup MySQL with EXPRESSCLUSTER X.
 For the detailed information of EXPRESSCLUSTER X, please refer to [this site](https://www.nec.com/en/global/prod/expresscluster/index.html) .
 
 
 Configuration
 ---
 In this setup, create 2 nodes (Node1 and Node2 as below) mirror disk type cluster.
-Achieving MySQL high availability By using EXPRESSCLUSTER X. 
+Achieving MySQL high availability By using EXPRESSCLUSTER X.
 
 ### Software versions
-- MySQL 8.0(internal version:8.0.36) 
-
-  OR
-
 - MySQL 8.0(internal version:8.0.36)
-- EXPRESSCLUSTER X 5.2.1 for Linux 
+- EXPRESSCLUSTER X 5.2.1 for Linux
 - EXPRESSCLUSTER X Replicator for Linux
 - EXPRESSCLUSTER X Database Agent for Linux
 - Red Hat Enterprise Linux 9.2
@@ -44,7 +40,7 @@ Please note that the following points are different if you set MySQL to EXPRESSC
 
 Procedure
 ---
-1. EXPRESSCLUSTER setup  
+1. EXPRESSCLUSTER setup
 
     We assume the following 2node cluster and explain it.
 
@@ -56,7 +52,7 @@ Procedure
     |cluster partition|/dev/sdc1|/dev/sdc1|
     |data partition|/dev/sdb1|/dev/sdb1|
 
-    ### failover group information  
+    ### failover group information
     |parameter|value|
     |---|---|
     |name|failover1|
@@ -98,22 +94,19 @@ Procedure
       - Initialize the MySQL 8.0(internal version:8.0.36)
         - Configure the MySQL Configuration file (/etc/my.cnf.d/mysql-server.cnf).
 
-          ```cnf
-          [mysqld] 
-          datadir=/datadrive/mysql
-
-          socket=/datadrive/mysql/mysql.sock 
-          ```
+          > [mysqld]
+          >
+          > datadir=/datadrive/mysql
+          >
+          > socket=/datadrive/mysql/mysql.sock
 
         - Configure the MySQL Client Configuration file (/etc/my.cnf.d/client.cnf).
 
-          ```cnf
-          [client]
-
-          port=3306
-          
-          socket=/datadrive/mysql/mysql.sock 
-          ```
+          > [client]
+          >
+          > port=3306
+          >
+          > socket=/datadrive/mysql/mysql.sock
 
         - No other configuring required.
 
