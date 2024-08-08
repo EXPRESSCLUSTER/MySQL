@@ -1,4 +1,4 @@
-MYSQL with EXPRESSCLUSTER X on Linux
+MySQL with EXPRESSCLUSTER X on Linux
 ===
 
 About this guide
@@ -14,7 +14,7 @@ Achieving MySQL high availability By using EXPRESSCLUSTER X.
 
 ### Software versions
 - MySQL 8.0(internal version:8.0.17) 
-             
+
   OR
 - MySQL 8.0(internal version:8.0.21)
 - CLUSTERPRO X 4.1/2/3 for Linux 
@@ -24,11 +24,11 @@ Achieving MySQL high availability By using EXPRESSCLUSTER X.
 ### Cluster configurations
 - Group resources
   - exec resource
-  - floting IP resource
+  - floating IP resource
   - mirror disk resource
   
-- Monitor rerources
-  - floting IP resource
+- Monitor resources
+  - floating IP resource
   - mirror disk connect monitor resource
   - mirror disk monitor resource
   - mysql monitor resource
@@ -36,7 +36,7 @@ Achieving MySQL high availability By using EXPRESSCLUSTER X.
 MySQL setup
 ---
 Please note that the following points are different if you set MySQL to EXPRESSCLUSTER.
-- database have to create Mirror disk that maneged by EXPRESSCLUSTER.
+- Database have to create Mirror disk that managed by EXPRESSCLUSTER.
   You have to set only active server if you create database and database cluster.
 
 
@@ -47,7 +47,7 @@ Procedure
     - We assume the following 2node cluster and explain it.
 
     ### cluster information
-    ||Node1(Active)|Node2(Stanby)|
+    ||Node1(Active)|Node2(Standby)|
     |---|---|---|
     |Server name|Server1|Server2|
     |IPaddress|192.168.1.1|192.168.1.2|  
@@ -60,7 +60,7 @@ Procedure
     |name|failover1|
     |Startup Server| Server1 -> Server2 |
     |floating ip address|192.168.1.10|
-    |mirror disk resource (mount point))|/mnt/md1|
+    |mirror disk resource (mount point)|/mnt/md1|
     
     - In Config mode of the Cluster WebUI, add failover group to use MySQL.  
       You need the following resources.
@@ -93,7 +93,7 @@ Procedure
     - Create the database directory.
         - mkdir -p /mnt/md1/mysql
 
-    - Coping MySQL data from default location to Mirror Disk.
+    - Copying MySQL data from default location to Mirror Disk.
     
       - systemctl status mysqld
       - systemctl stop mysqld
