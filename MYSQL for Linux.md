@@ -14,7 +14,7 @@ Achieving MySQL high availability By using EXPRESSCLUSTER X.
 
 ### Software versions
 - MySQL 8.0(internal version:8.0.36) 
-             
+
   OR
 
 - MySQL 8.0(internal version:8.0.36)
@@ -38,15 +38,15 @@ Achieving MySQL high availability By using EXPRESSCLUSTER X.
 MySQL setup
 ---
 Please note that the following points are different if you set MySQL to EXPRESSCLUSTER.
-- Database have to create Mirror disk that managed by EXPRESSCLUSTER.
-  You have to set only active server if you create database and database cluster.
 
+- Database have to be created on Mirror disk that managed by EXPRESSCLUSTER.
+- You have to set only active server if you create database and database cluster.
 
 Procedure
 ---
 1. EXPRESSCLUSTER setup  
 
-    - We assume the following 2node cluster and explain it.
+    We assume the following 2node cluster and explain it.
 
     ### cluster information
     ||Node1(Active)|Node2(Standby)|
@@ -55,73 +55,80 @@ Procedure
     |IPaddress|10.0.7.118|10.0.7.119|  
     |cluster partition|/dev/sdc1|/dev/sdc1|
     |data partition|/dev/sdb1|/dev/sdb1|
-    
+
     ### failover group information  
     |parameter|value|
     |---|---|
     |name|failover1|
     |Startup Server| Server1 -> Server2 |
     |floating ip address|10.0.7.120|
-    |mirror disk resource (mount point))|/datadrive|
-    
+    |mirror disk resource (mount point)|/datadrive|
+
     - In Config mode of the Cluster WebUI, add failover group to use MySQL.  
       You need the following resources.
       - Floating ip resource  
       - Mirror disk resource
-    
-     If want to know how to add the resource, please refer to "EXPRESSCLUSTER X 5.2 for Linux Installation and Configuration Guide". 
-     After you add failver group and execute apply the configuration file, you start failover group by server1.  
-     
+
+     If want to know how to add the resource, please refer to "EXPRESSCLUSTER X 5.2 for Linux Installation and Configuration Guide".
+     After you add failover group and execute apply the configuration file, you start failover group by server1.  
+
 2. Install MySQL on both servers
 
-       (Run the below mentioned command to install mysql using yum )
+   Run the below mentioned command to install mysql using yum.
+   - sudo yum install mysql-server
 
-    - sudo yum install mysql-server  
+   Configure the root account.
+   - mysql_secure_installation
 
-    - Configure the root account
-        - mysql_secure_installation [this site](https://dev.mysql.com/doc/refman/8.4/en/mysql-secure-installation.html) for secure installation setup
-        
+     [this site](https://dev.mysql.com/doc/refman/8.4/en/mysql-secure-installation.html) describes secure installation.
+
 3. MySQL Configuration for Mirror disk (Node1)
 
     - Create the database directory.
         - mkdir -p /datadrive/mysql
 
     - Copying MySQL data from default location to Mirror Disk.
-    
       - systemctl status mysqld
       - systemctl stop mysqld
       - systemctl disable mysqld
       - sudo rsync -av /var/lib/mysql /datadrive
-      
+
 4. Perform the below steps on both the Nodes.
 
       - Initialize the MySQL 8.0(internal version:8.0.36)
         - Configure the MySQL Configuration file (/etc/my.cnf.d/mysql-server.cnf).
-          > [mysqld] 
-          > datadir=/datadrive/mysql
 
-          > socket=/datadrive/mysql/mysql.sock 
-          
+          ```cnf
+          [mysqld] 
+          datadir=/datadrive/mysql
+
+          socket=/datadrive/mysql/mysql.sock 
+          ```
+
         - Configure the MySQL Client Configuration file (/etc/my.cnf.d/client.cnf).
-          > [client]
 
-          > port=3306
+          ```cnf
+          [client]
+
+          port=3306
           
-          > socket=/datadrive/mysql/mysql.sock 
-            - No other configuring required.        
-     
+          socket=/datadrive/mysql/mysql.sock 
+          ```
+
+        - No other configuring required.
+
 5. MySQL Setup (Node1)
-        
+
     - Run the MySQL service.
         - systemctl start mysqld
 
-    - Create database 
+    - Create database
          - mysql -u root -p
             - log in to root
          - CREATE DATABASE db_test;
             - Create database named db_test.
-                
-    - Create user and password for executing database. 
+
+    - Create user and password for executing database.
          - CREATE USER 'test_user'@'localhost' IDENTIFIED BY 'root@1234!@#$';
 
     - Grant permissions.
@@ -134,7 +141,7 @@ Procedure
          - mysql -u test_user -p
             - Log in to test_user.
          - use db_test
-            - Specify using database.
+            - Specify the using database.
          - create table user(id int, name varchar(10));
             - Create table.
          - create index id_index on user(id);
@@ -155,15 +162,15 @@ Procedure
     You have to move failover group on the Node2. Configure MySQL on the Node2 (follow step 4)
     - Start MySQL service.
         - systemctl start mysqld
-        
+
     - Configure the root account
         - mysql_secure_installation
-      
+
     - Confirm the database
          - mysql -u test_user -p
               - Log in to "test_user"
          - use db_test
-              - Specify 
+              - Specify the using database.
          - select * from user;
             - Confirm the database.
 
@@ -175,7 +182,7 @@ Procedure
          - mysql -u test_user -p
             - Log in to test_user.
          - use db_test
-            - Specify using database.
+            - Specify the using database.
          - create table user(id int, name varchar(10));
             - Create table.
          - create index id_index on user(id);
@@ -188,36 +195,33 @@ Procedure
               |id|name|
               |---|---|
               |2|king|
-                       
-              
+
     - Stop MySQL service.
          - systemctl stop mysqld
-   
-
 
     - Failback to Node1 to verify MYSQL database  
-- Confirm the database
-     - mysql -u test_user -p
-              - Log in to "test_user"
-         - use db_test
-              - Specify 
-         - select * from user;
-            - Confirm the database.
+    - Confirm the database
+      - mysql -u test_user -p
+         - Log in to "test_user"
+      - use db_test
+         - Specify the using database
+      - select * from user;
+         - Confirm the database.
 
-              |id|name|
-              |---|---|
-              |1|Hamster|
-              |2|king|
+         |id|name|
+         |---|---|
+         |1|Hamster|
+         |2|king|
 
- 7. Configure the EXPRESSCLUSTER
- 
-      - Add the exec resource and configure. 
-       
+7. Configure the EXPRESSCLUSTER
+
+      - Add the exec resource and configure.
+
         In Config mode of the Cluster WebUI, Add the exec resource to control MySQL.  
           - Configure the start.sh and stop.sh
-            -  In the case of start.sh -> Immediately after "$CLP_DISK" = "SUCCESS", add the "systemctl start mysqld"
-            -  In the case of stop.sh  -> Immediately after "$CLP_DISK" = "SUCCESS", add the "systemctl stop mysqld"
-           
+            - In the case of start.sh -> Immediately after "$CLP_DISK" = "SUCCESS", add the "systemctl start mysqld"
+            - In the case of stop.sh  -> Immediately after "$CLP_DISK" = "SUCCESS", add the "systemctl stop mysqld"
+
       - Add the MySQL monitor resource
           - Configure the following parameters
 
@@ -228,12 +232,9 @@ Procedure
               |Monitor(special) > User Name|test_user|
               |Monitor(special) > password|root@1234!@#$|
               |Monitor(special) > Library Path|/usr/lib64/mysql/libmysqlclient.so.21|
-              
-      - In Config mode of the Cluster WebUI, execute Apply the Configuration File.
 
-      
+      - In Config mode of the Cluster WebUI, execute Apply the Configuration File.
 
 8. Verification
 
-    - Confirm that we can access the database where it failover group is running. 
-
+    - Confirm that we can access the database where it failover group is running.
